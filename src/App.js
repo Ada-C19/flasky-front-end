@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import CrystalList from './components/CrystalList';
+
+const crystalData = [
+  {
+    id: 1,
+    name: "Amethyst",
+    color: "Pruple",
+    powers: "Infinite knowledge and wisdom"
+  },
+  {
+    id: 2,
+    name: "Tiger's Eye",
+    color: "Orange",
+    powers: "Confidence and strength"
+  },
+  {
+  id: 3,
+  name: "Rose Quarts",
+  color: "Pink",
+  powers: "Love"
+  },
+];
 
 function App() {
+  const title = 'The Crystal Cove'
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <h1>{title}</h1>
+      {/* 'crystals' is the key 'crystalData' is the value */}
+      <CrystalList crystals={crystalData}/>
+    </main>
   );
 }
 

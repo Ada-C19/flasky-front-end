@@ -22,6 +22,7 @@ const crystalData = [
   powers: "Love"
   },
 ];
+
 function App() {
   const title = 'The Crystal Cove'
   return (

@@ -44,6 +44,14 @@ const App = () => {
     }));
   };
 
+  // filter returns a copy of catData with the cat we’re interested in deleting omitted from the list
+  const onUnregisterCat = id => {
+    setCatData((catData) => catData.filter((cat) => {
+      return cat.id !== id;
+    }));
+  };
+  
+
   const calcTotalPets = (catData) => {
     let initial_val = 0;
     return catData.reduce((total, cat) => {
@@ -60,7 +68,7 @@ const App = () => {
         <h2>Total Number of Pets Across All Kitties: {totalPetTally}</h2>
       </header>
       <main>
-        <CatList catData={catData} onPetCat={onPetCat}/>
+        <CatList catData={catData} onPetCat={onPetCat} onUnregister={onUnregisterCat}/>
       </main>
     </div>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import Cat from "./Cat";
 import PropTypes from "prop-types";
 
-const CatList = ({ catData, onPetCat }) => {
+const CatList = ({ catData, onPetCat, onUnregister }) => {
   const getCatListJSX = (cats) => {
     return cats.map((cat) => {
       return (
@@ -15,6 +15,7 @@ const CatList = ({ catData, onPetCat }) => {
           key={cat.id}
           petCount={cat.petCount}
           onPetCat={onPetCat}
+          onUnregister={onUnregister}
         />
       );
     });
@@ -40,6 +41,7 @@ CatList.propTypes = {
     })
   ).isRequired,
   onPetCat: PropTypes.func.isRequired,
+  onUnregister: PropTypes.func.isRequired,
 };
 
 export default CatList;

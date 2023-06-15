@@ -10,6 +10,9 @@ const Cat = (props) => {
       <h3>Caretaker: {props.caretaker}</h3>
       <h3># Pets: {props.petCount}</h3>
       <button onClick={(event) => props.onPetCat(props.id)}>Pet Cat</button>
+      <button onClick={(event) => props.onUnregisterCat(props.id)}>
+        Remove Cat
+      </button>
     </li>
   );
 };
@@ -21,6 +24,7 @@ Cat.propTypes = {
   caretaker: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   onPetCat: PropTypes.func.isRequired,
+  onUnregisterCat: PropTypes.func.isRequired,
 };
 
 export default Cat;

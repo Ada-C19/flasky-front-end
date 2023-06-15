@@ -47,6 +47,10 @@ function App() {
     });
   };
 
+  const unregisterCat = (id) => {
+    setCatData((prev) => prev.filter((cat) => cat.id !== id));
+  };
+
   const totalPetTally = catData.reduce((total, cat) => {
     total += cat.petCount;
     return total;
@@ -56,7 +60,11 @@ function App() {
     <main className="App">
       <h1>The Cat Corner</h1>
       <h2>Total number of pets across all cats: {totalPetTally}</h2>
-      <CatList catData={catData} onPetCat={petCat} />
+      <CatList
+        catData={catData}
+        onPetCat={petCat}
+        onUnregisterCat={unregisterCat}
+      />
     </main>
   );
 }

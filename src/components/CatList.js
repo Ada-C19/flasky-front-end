@@ -16,6 +16,7 @@ const CatList = (props) => {
             color={cat.color}
             petCount={cat.petCount}
             onPetCat={props.onPetCat}
+            onUnregisterCat={props.onUnregisterCat}
             id={cat.id}
             key={cat.id}
           />
@@ -35,6 +36,7 @@ CatList.propTypes = {
     })
   ).isRequired,
   onPetCat: PropTypes.func.isRequired,
+  onUnregisterCat: PropTypes.func.isRequired,
 };
 
 export default CatList;

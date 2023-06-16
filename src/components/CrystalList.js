@@ -2,7 +2,7 @@ import React from 'react';
 import Crystal from './Crystal';
 import PropTypes from 'prop-types';
 
-const CrystalList = ({ crystals }) => {
+const CrystalList = ({crystals, increaseCharge, removeCrystal}) => {
   const crystalComponents = crystals.map((crystal, index) => {
     return (
       <li key={index}>
@@ -11,6 +11,9 @@ const CrystalList = ({ crystals }) => {
           name={crystal.name}
           color={crystal.color}
           powers={crystal.powers}
+          charges={crystal.charges}
+          increaseCharge={increaseCharge}
+          removeCrystal={removeCrystal}
         />
       </li>
     );
@@ -33,5 +36,7 @@ CrystalList.propTypes = {
       powers: PropTypes.string.isRequired,
     })
   ),
+  increaseCharge: PropTypes.func.isRequired,
+  removeCrystal: PropTypes.func.isRequired
 };
 export default CrystalList;

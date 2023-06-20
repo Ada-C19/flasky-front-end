@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import CrystalList from './components/CrystalList';
+import axios from 'axios';
 
 const crystalData = [
   {
@@ -27,23 +28,34 @@ const crystalData = [
 ];
 
 function App() {
-  const [crystals, setCrystals] = React.useState(crystalData)
+  const [crystals, setCrystals] = React.useState([])
+
+  React.useEffect(() => {
+    axios.get('http://localhost:5000/crystals').then(resp => {
+      setCrystals(resp.data)
+    })
+  },[])
 
   const increaseCharge = (id) => {
-    setCrystals(prevCrystals => {
-      const updatedCrystals = prevCrystals.map(crystal => {
-        // condition ? <value to return if true> : <value to return if false>
-        return crystal.id === id ? {...crystal, charges: crystal.charges + 1} : crystal
+    axios.patch(`http://127.0.0.1:5000/crystals/${id}`).then(resp => {
+
+      setCrystals(prevCrystals => {
+        const updatedCrystals = prevCrystals.map(crystal => {
+          // condition ? <value to return if true> : <value to return if false>
+          return crystal.id === id ? resp.data : crystal
+        })
+        return updatedCrystals
       })
-      return updatedCrystals
     })
     
   }
 
   const removeCrystal = (id) => {
-    setCrystals(prevCrystals => {
-      const updatedCrystals = prevCrystals.filter(crystal => crystal.id !== id)
-      return updatedCrystals
+    axios.delete(`http://localhost:5000/crystals/${id}`).then(() => {
+      setCrystals(prevCrystals => {
+        const updatedCrystals = prevCrystals.filter(crystal => crystal.id !== id)
+        return updatedCrystals
+      })
     })
   }
 

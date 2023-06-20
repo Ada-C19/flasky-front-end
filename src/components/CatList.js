@@ -2,20 +2,18 @@ import React from "react";
 import Cat from "./Cat";
 import PropTypes from "prop-types";
 
-const CatList = ({ catData, onPetCat, onUnregister }) => {
+const CatList = ({ catData, petCat }) => {
   const getCatListJSX = (cats) => {
     return cats.map((cat) => {
       return (
         <Cat
           id={cat.id}
           name={cat.name}
-          caretaker={cat.caretaker}
+          petCount={cat.petCount}
           color={cat.color}
           personality={cat.personality}
           key={cat.id}
-          petCount={cat.petCount}
-          onPetCat={onPetCat}
-          onUnregister={onUnregister}
+          petCat={petCat}
         />
       );
     });
@@ -34,14 +32,12 @@ CatList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
-      caretaker: PropTypes.string.isRequired,
+      petCount: PropTypes.number.isRequired,
       color: PropTypes.string.isRequired,
       personality: PropTypes.string.isRequired,
-      petCount: PropTypes.number.isRequired,
     })
   ).isRequired,
-  onPetCat: PropTypes.func.isRequired,
-  onUnregister: PropTypes.func.isRequired,
+  petCat: PropTypes.func.isRequired,
 };
 
 export default CatList;

@@ -1,5 +1,6 @@
 import "./App.css";
 import CatList from "./components/CatList";
+import NewCatForm from "./components/NewCatForm";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -65,6 +66,14 @@ const App = () => {
     fetchCats();
   }, []);
 
+  const onHandleSubmit = (data) => {
+    axios.post(`${kBaseUrl}/cats`, data)
+      .then((response) => {
+        setCatState((prevCats) => [convertFromApi(response.data), ...prevCats]);
+      })
+      .catch((e) => console.log(e));
+  };
+
   const onPetCat = (id) => {
     petCatApi(id).then((updatedCat) => {
       setCatState((oldData) => {
@@ -85,6 +94,7 @@ const App = () => {
         <h2>Total Number of Pets Across All Kitties: {totalPetTally}</h2>
       </header>
       <main>
+        <NewCatForm onHandleSubmit={onHandleSubmit}></NewCatForm>
         <CatList catData={catState} petCat={onPetCat} />
       </main>
     </div>

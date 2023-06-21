@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import CatList from "./components/CatList";
 import axios from "axios";
+
+import CatList from "./components/CatList";
+import NewCatForm from "./components/NewCatForm";
+
 import "./App.css";
 
 // const DATA = [
@@ -33,10 +36,14 @@ const kBaseUrl = "http://127.0.0.1:5000/cats";
 function App() {
   const [catData, setCatData] = useState([]);
 
+  const convertCat = ({ pet_count, ...cat }) => ({
+    ...cat,
+    petCount: pet_count,
+    caretaker: "",
+  });
+
   const catDataConvert = (res) => {
-    return res.map((cat) => {
-      return { ...cat, petCount: cat.pet_count, caretaker: "" };
-    });
+    return res.map(convertCat);
   };
 
   useEffect(() => {
@@ -73,15 +80,25 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const handleSubmit = (data) => {
+    axios
+      .post(kBaseUrl, data)
+      .then((res) => {
+        setCatData([convertCat(res.data), ...catData]);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const totalPetTally = catData.reduce((total, cat) => {
     total += cat.petCount;
     return total;
   }, 0);
 
   return (
-    <main className='App'>
+    <main className="App">
       <h1>The Cat Corner</h1>
       <h2>Total number of pets across all cats: {totalPetTally}</h2>
+      <NewCatForm handleSubmit={handleSubmit} />
       <CatList
         catData={catData}
         onPetCat={petCat}

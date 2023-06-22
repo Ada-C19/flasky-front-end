@@ -1,8 +1,9 @@
 import React from 'react';
 import Crystal from './Crystal';
 import PropTypes from 'prop-types';
+import './CrystalList.css';
 
-const CrystalList = ({crystals, increaseCharge, removeCrystal}) => {
+const CrystalList = ({ crystals, increaseCharge, removeCrystal }) => {
   const crystalComponents = crystals.map((crystal, index) => {
     return (
       <li key={index}>
@@ -37,6 +38,6 @@ CrystalList.propTypes = {
     })
   ),
   increaseCharge: PropTypes.func.isRequired,
-  removeCrystal: PropTypes.func.isRequired
+  removeCrystal: PropTypes.func.isRequired,
 };
 export default CrystalList;

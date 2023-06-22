@@ -1,18 +1,33 @@
 import React from 'react';
+import './CrystalForm.css';
+import PropTypes from 'prop-types';
 
-const CrystalForm = () => {
+const CrystalForm = ({ addCrystalCallback }) => {
   const [formFields, setFormFields] = React.useState({
     name: '',
     color: '',
     powers: '',
-    charges: null,
+    charges: 0,
   });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    addCrystalCallback(formFields);
+
+    setFormFields({
+      name: '',
+      color: '',
+      powers: '',
+      charges: 0,
+    });
+  };
 
   const handleChange = (evt) =>
     setFormFields({ ...formFields, [evt.target.name]: evt.target.value });
 
   return (
-    <form>
+    <form onSubmit={handleSubmit} className='new_crystal_form'>
       <section>
         <h2>Add a Crystal</h2>
         <div className='new_crystal_fields'>
@@ -59,6 +74,10 @@ const CrystalForm = () => {
       </section>
     </form>
   );
+};
+
+CrystalForm.propTypes = {
+  addCrystalCallback: PropTypes.func.isRequired,
 };
 
 export default CrystalForm;

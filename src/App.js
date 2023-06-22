@@ -60,6 +60,27 @@ function App() {
     });
   };
 
+  const addCrystal = (newCrystalData) => {
+    axios
+      .post(`http://localhost:5000/crystals`, newCrystalData)
+      .then((response) => {
+        const newCrystals = [...crystals];
+
+        newCrystals.push({
+          id: response.data.id,
+          name: response.data.name,
+          color: response.data.color,
+          powers: response.data.powers,
+          charges: response.data.charges,
+        });
+
+        setCrystals(newCrystals);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const totalCharges = () => {
     let total = 0;
     for (let crystal of crystals) {
@@ -74,7 +95,7 @@ function App() {
     <main className='App'>
       <h1>{title}</h1>
       <p>Total Charges: {totalCharges()}</p>
-      <CrystalForm />
+      <CrystalForm addCrystalCallback={addCrystal} />
       <CrystalList
         crystals={crystals}
         removeCrystal={removeCrystal}

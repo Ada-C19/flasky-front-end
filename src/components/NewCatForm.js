@@ -1,24 +1,29 @@
 import React, { useState } from "react";
 
-const NewCatForm = ({ handleSubmit }) => {
-  const [name, setName] = useState("");
+const kInitialFormData = {
+  name: '',
+  color: '',
+  personality: '',
+};
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+const NewCatForm = ({ handleSubmit }) => {
+  const [formData, setFormData] = useState(kInitialFormData);
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    setFormData(prev => ({
+      ...prev, [name]: value
+    }));
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     // function passed as a prop that will call the API
-    const newCat = {
-      name,
-      color: '',
-      personality: '',
-      pet_count: 0,
-    };
-    handleSubmit(newCat);
+    handleSubmit({ ...formData });
     // clear input field
-    setName("");
+    setFormData(kInitialFormData);
   };
 
   return (
@@ -27,9 +32,25 @@ const NewCatForm = ({ handleSubmit }) => {
       <input
         type="text"
         id="name"
-        name="catName"
-        value={name}
-        onChange={handleNameChange}
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <label htmlFor="color">Cat color:</label>
+      <input
+        type="text"
+        id="color"
+        name="color"
+        value={formData.color}
+        onChange={handleChange}
+      />
+      <label htmlFor="personality">Cat personality:</label>
+      <input
+        type="text"
+        id="personality"
+        name="personality"
+        value={formData.personality}
+        onChange={handleChange}
       />
       <input type="submit" value="Add a cat" />
     </form>

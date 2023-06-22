@@ -33,18 +33,19 @@ import "./App.css";
 //   },
 // ];
 const kBaseUrl = "http://127.0.0.1:5000/cats";
+
+const catDataConvert = (res) => {
+  return res.map(convertCat);
+};
+
+const convertCat = ({ pet_count, ...cat }) => ({
+  ...cat,
+  petCount: pet_count,
+  caretaker: "",
+});
+
 function App() {
   const [catData, setCatData] = useState([]);
-
-  const convertCat = ({ pet_count, ...cat }) => ({
-    ...cat,
-    petCount: pet_count,
-    caretaker: "",
-  });
-
-  const catDataConvert = (res) => {
-    return res.map(convertCat);
-  };
 
   useEffect(() => {
     axios
@@ -54,29 +55,39 @@ function App() {
   }, []);
 
   const petCat = (id) => {
-    setCatData((prev) => {
-      return prev.map((cat) => {
-        if (id === cat.id) {
-          return {
-            ...cat,
-            petCount: cat.petCount + 1,
-          };
-        } else {
-          return cat;
-        }
-      });
-    });
-    axios
+    return axios
       .patch(`${kBaseUrl}/${id}/pet`)
-      .then((res) => console.log("Back end response", res.data))
+      .then((res) => {
+        const updatedCat = convertCat(res.data);
+        setCatData((prev) => {
+          return prev.map((cat) => {
+            if (id === cat.id) {
+              return updatedCat;
+            } else {
+              return cat;
+            }
+          });
+        });
+
+        // DON'T DO THIS
+        // const newCatData = catData.map((cat) => {
+        //     if (id === cat.id) {
+        //       return updatedCat;
+        //     } else {
+        //       return cat;
+        //     }
+        //   });
+        // setCatData(newCatData);
+      })
       .catch((err) => console.log(err));
   };
 
   const unregisterCat = (id) => {
-    setCatData((prev) => prev.filter((cat) => cat.id !== id));
     axios
       .delete(`${kBaseUrl}/${id}`)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        setCatData((prev) => prev.filter((cat) => cat.id !== id));
+      })
       .catch((err) => console.log(err));
   };
 
@@ -84,7 +95,7 @@ function App() {
     axios
       .post(kBaseUrl, data)
       .then((res) => {
-        setCatData([convertCat(res.data), ...catData]);
+        setCatData(prev => [convertCat(res.data), ...prev]);
       })
       .catch((err) => console.log(err));
   };

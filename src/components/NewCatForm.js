@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { addNewCat } from "../redux/cat-slice";
 
 const kInitialFormData = {
   name: '',
@@ -6,8 +9,9 @@ const kInitialFormData = {
   personality: '',
 };
 
-const NewCatForm = ({ handleSubmit }) => {
+const NewCatForm = () => {
   const [formData, setFormData] = useState(kInitialFormData);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     const value = event.target.value;
@@ -20,8 +24,8 @@ const NewCatForm = ({ handleSubmit }) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    // function passed as a prop that will call the API
-    handleSubmit({ ...formData });
+    // dispatch a redux action creator that will call the API and update the store
+    dispatch(addNewCat({ ...formData }));
     // clear input field
     setFormData(kInitialFormData);
   };

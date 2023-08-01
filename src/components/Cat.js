@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+
+import { deleteCat, updateCatPets } from "../redux/cat-slice";
 
 const Cat = (props) => {
+  const dispatch = useDispatch();
+
   return (
     <li>
       <h3>Cat name: {props.name}</h3>
@@ -9,8 +14,8 @@ const Cat = (props) => {
       <h3>Color: {props.color}</h3>
       <h3>Caretaker: {props.caretaker}</h3>
       <h3># Pets: {props.petCount}</h3>
-      <button onClick={(event) => props.onPetCat(props.id)}>Pet Cat</button>
-      <button onClick={(event) => props.onUnregisterCat(props.id)}>
+      <button onClick={() => dispatch(updateCatPets(props.id))}>Pet Cat</button>
+      <button onClick={() => dispatch(deleteCat(props.id))}>
         Remove Cat
       </button>
     </li>
@@ -23,8 +28,6 @@ Cat.propTypes = {
   personality: PropTypes.string.isRequired,
   caretaker: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
-  onPetCat: PropTypes.func.isRequired,
-  onUnregisterCat: PropTypes.func.isRequired,
 };
 
 export default Cat;
